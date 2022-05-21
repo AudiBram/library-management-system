@@ -1,5 +1,6 @@
 package com.projects.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.util.Set;
 import static javax.persistence.GenerationType.*;
 
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "books")
 @Entity
