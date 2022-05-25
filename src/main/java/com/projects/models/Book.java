@@ -23,37 +23,37 @@ public class Book {
 
     // International Standard Book Number
     @Column(nullable = false, unique = true)
-    private String isbn;
+    private String bIsbn;
 
     @Column(nullable = false)
-    private String name;
+    private String bName;
 
     @Column(nullable = false)
-    private String serialName;
+    private String bSerialName;
 
     @Column(nullable = false)
-    private String description;
+    private String bDescription;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
-    @JoinTable(name = "books_authors", joinColumns = { @JoinColumn(name = "book_id") }, inverseJoinColumns = {
+    @JoinTable(name = "fk_authors", joinColumns = { @JoinColumn(name = "book_id") }, inverseJoinColumns = {
             @JoinColumn(name = "author_id") })
     private Set<Author> authors = new HashSet<Author>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(name = "books_categories", joinColumns = { @JoinColumn(name = "book_id") }, inverseJoinColumns = {
+    @JoinTable(name = "fk_categories", joinColumns = { @JoinColumn(name = "book_id") }, inverseJoinColumns = {
             @JoinColumn(name = "category_id") })
     private Set<Category> categories = new HashSet<Category>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @JoinTable(name = "books_publishers", joinColumns = { @JoinColumn(name = "book_id") }, inverseJoinColumns = {
+    @JoinTable(name = "fk_publishers", joinColumns = { @JoinColumn(name = "book_id") }, inverseJoinColumns = {
             @JoinColumn(name = "publisher_id") })
     private Set<Publisher> publishers = new HashSet<Publisher>();
 
-    public Book(String isbn, String name, String serialName, String description) {
-        this.isbn = isbn;
-        this.name = name;
-        this.serialName = serialName;
-        this.description = description;
+    public Book(String bIsbn, String bName, String bSerialName, String bDescription) {
+        this.bIsbn = bIsbn;
+        this.bName = bName;
+        this.bSerialName = bSerialName;
+        this.bDescription = bDescription;
     }
 
     public void addAuthors(Author author) {

@@ -20,12 +20,12 @@ public class Category {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String name;
+    private String cName;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "categories")
     private Set<Book> books = new HashSet<Book>();
 
     public Category(String name) {
-        this.name = name;
+        this.cName = cName;
     }
 }
