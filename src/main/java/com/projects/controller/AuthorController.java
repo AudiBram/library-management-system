@@ -3,6 +3,7 @@ package com.projects.controller;
 import com.projects.models.Author;
 import com.projects.service.AuthorService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,7 @@ public class AuthorController {
     private final AuthorService authorService;
 
     @RequestMapping("/authors")
+    @PreAuthorize("hasAnyRole('ROLE_LIBRARIAN', 'ROLE_STUDENT')")
     public String findAllAuthors(Model model) {
         final List<Author> authors = authorService.findAllAuthors();
 
@@ -27,6 +29,7 @@ public class AuthorController {
     }
 
     @RequestMapping("/author/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_LIBRARIAN', 'ROLE_STUDENT')")
     public String findAuthorById(@PathVariable("id") Long id, Model model) {
         final Author author = authorService.findAuthorById(id);
 
@@ -35,11 +38,13 @@ public class AuthorController {
     }
 
     @GetMapping("/addAuthor")
+    @PreAuthorize("hasAuthority('library:write')")
     public String showCreateForm(Author author) {
         return "add-author";
     }
 
     @RequestMapping("/add-author")
+    @PreAuthorize("hasAuthority('library:write')")
     public String createAuthor(Author author, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "add-author";
@@ -51,6 +56,7 @@ public class AuthorController {
     }
 
     @GetMapping("/updateAuthor/{id}")
+    @PreAuthorize("hasAuthority('library:write')")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
         final Author author = authorService.findAuthorById(id);
 
@@ -59,6 +65,7 @@ public class AuthorController {
     }
 
     @RequestMapping("/update-author/{id}")
+    @PreAuthorize("hasAuthority('library:write')")
     public String updateAuthor(@PathVariable("id") Long id, Author author, BindingResult result, Model model) {
         if (result.hasErrors()) {
             author.setId(id);
@@ -71,6 +78,7 @@ public class AuthorController {
     }
 
     @RequestMapping("/remove-author/{id}")
+    @PreAuthorize("hasAuthority('library:write')")
     public String deleteAuthor(@PathVariable("id") Long id, Model model) {
         authorService.deleteAuthorById(id);
 

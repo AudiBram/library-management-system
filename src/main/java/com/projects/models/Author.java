@@ -20,16 +20,16 @@ public class Author {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String name;
+    private String aName;
 
     @Column(nullable = false)
-    private String description;
+    private String aDescription;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {PERSIST, MERGE, REMOVE}, mappedBy = "authors")
     private Set<Book> books = new HashSet<Book>();
 
     public Author(String name, String description) {
-        this.name = name;
-        this.description = description;
+        this.aName = aName;
+        this.aDescription = aDescription;
     }
 }

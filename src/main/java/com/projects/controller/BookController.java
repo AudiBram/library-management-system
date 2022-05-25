@@ -7,6 +7,7 @@ import com.projects.service.CategoryService;
 import com.projects.service.PublisherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,6 +27,7 @@ public class BookController {
     private final PublisherService publisherService;
 
     @RequestMapping("/books")
+    @PreAuthorize("hasAnyRole('ROLE_LIBRARIAN', 'ROLE_STUDENT')")
     public String findAllBooks(Model model) {
         final List<Book> books = bookService.findAllBooks();
 
@@ -34,6 +36,7 @@ public class BookController {
     }
 
     @RequestMapping("/searchBook")
+    @PreAuthorize("hasAnyRole('ROLE_LIBRARIAN', 'ROLE_STUDENT')")
     public String searchBook(@Param("keyword") String keyword, Model model) {
         final List<Book> books = bookService.searchBooks(keyword);
 
@@ -43,6 +46,7 @@ public class BookController {
     }
 
     @RequestMapping("/book/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_LIBRARIAN', 'ROLE_STUDENT')")
     public String findBookById(@PathVariable("id") Long id, Model model) {
         final Book book = bookService.findBookById(id);
 
@@ -51,6 +55,7 @@ public class BookController {
     }
 
     @GetMapping("/add")
+    @PreAuthorize("hasAuthority('library:write')")
     public String showCreateForm(Book book, Model model) {
         model.addAttribute("categories", categoryService.findAllCategories());
         model.addAttribute("authors", authorService.findAllAuthors());
@@ -59,6 +64,7 @@ public class BookController {
     }
 
     @RequestMapping("/add-book")
+    @PreAuthorize("hasAuthority('library:write')")
     public String createBook(Book book, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "add-book";
@@ -70,6 +76,7 @@ public class BookController {
     }
 
     @GetMapping("/update/{id}")
+    @PreAuthorize("hasAuthority('library:write')")
     public String showUpdateForm(@PathVariable("id") Long id, Model model) {
         final Book book = bookService.findBookById(id);
 
@@ -78,6 +85,7 @@ public class BookController {
     }
 
     @RequestMapping("/update-book/{id}")
+    @PreAuthorize("hasAuthority('library:write')")
     public String updateBook(@PathVariable("id") Long id, Book book, BindingResult result, Model model) {
         if (result.hasErrors()) {
             book.setId(id);
@@ -90,6 +98,7 @@ public class BookController {
     }
 
     @RequestMapping("/remove-book/{id}")
+    @PreAuthorize("hasAuthority('library:write')")
     public String deleteBook(@PathVariable("id") Long id, Model model) {
         bookService.deleteBookById(id);
 

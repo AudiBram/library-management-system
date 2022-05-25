@@ -20,12 +20,12 @@ public class Publisher {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String name;
+    private String pName;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE }, mappedBy = "publishers")
     private Set<Book> books = new HashSet<Book>();
 
     public Publisher(String name) {
-        this.name = name;
+        this.pName = pName;
     }
 }
