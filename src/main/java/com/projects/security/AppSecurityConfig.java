@@ -63,13 +63,13 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected UserDetailsService userDetailsService() {
         UserDetails max = User.builder()
-                .username("max")
+                .username("admin")
                 .password(passwordEncoder.encode("password123"))
                 .authorities(LIBRARIAN.getGrantedAuthorities())
                 .build();
 
         UserDetails lewis = User.builder()
-                .username("lewis")
+                .username("user")
                 .password(passwordEncoder.encode("password"))
                 .authorities(STUDENT.getGrantedAuthorities())
                 .build();
